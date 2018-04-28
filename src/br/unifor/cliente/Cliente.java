@@ -11,10 +11,7 @@ import br.unifor.controle.Controle;
 import sun.misc.FpUtils;
 
 public class Cliente {
-
-	private static Socket socket;
-	private static int porta;
-	private static String ip;
+	
 	private static Controle controle;
 
 	public Cliente(Controle controle) {
@@ -44,26 +41,6 @@ public class Cliente {
 				}
 
 			}
-	}
-
-	public static int getPorta() {
-		return porta;
-	}
-
-	public static void setPorta(int porta) {
-		Cliente.porta = porta;
-	}
-
-	public static String getIp() {
-		return ip;
-	}
-
-	public static void setIp(String ip) {
-		Cliente.ip = ip;
-	}
-
-	public Cliente(Socket c) {
-		this.socket = c;
 	}
 
 }

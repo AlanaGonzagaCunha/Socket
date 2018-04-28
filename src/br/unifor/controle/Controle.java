@@ -1,18 +1,23 @@
 package br.unifor.controle;
+
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import br.unifor.cliente.RecebeConexaoCliente;
+import br.unifor.configurações.Configuracoes;
 import br.unifor.servidor.Servidor;
 
 public class Controle {
 
-	ArrayList<Socket> conexoes = new ArrayList<Socket>();
+	private static ArrayList<Socket> conexoes = new ArrayList<Socket>();
+	private static Configuracoes configuracoes;
 
 	public Controle() {
+		this.configuracoes = new Configuracoes(2121);
 		Servidor servidor = new Servidor(this);
-		
+		verificaRede();
 	}
 
 	public void adicionaConexao(Socket con) {
@@ -20,15 +25,54 @@ public class Controle {
 		this.conexoes.add(con);
 	}
 
-//	public Boolean isConexao(String ip) {
-//
-//		for (Socket s : conexoes) {
-//			if (s.getInetAddress().getHostAddress().equals(ip)) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
+	public String isConexao(String ip) {
+
+		for (Socket s : conexoes) {
+			if (s.getInetAddress().getHostAddress().equals(ip)) {
+				return  s.getInetAddress().getHostAddress();
+			}
+		}
+		return "";
+	}
+
+	public void verificaRede() {
+
+		System.out.println("Verificar se há conexões abertas na rede... ");
+		String ip = localizaRede();
+
+		for (int i = 0; i <= 255; i++) {
+			String verificaIPs = ip + String.valueOf(i);
+
+			if (this.configuracoes.equals(verificaIPs)) {
+				System.out.println("Já existe conexao aberta no ip: " + verificaIPs);
+
+			} else {
+				if (this.isConexao(verificaIPs).equals(verificaIPs)) {
+					System.out.println("Já existe conexao aberta no ip: " + verificaIPs);
+
+				} else {
+					System.out.println("Abrindo nova conexão...");
+					RecebeConexaoCliente con = new RecebeConexaoCliente(verificaIPs, configuracoes.getPorta(), this);
+
+					Thread conectarServidor = new Thread(con);
+					conectarServidor.start();
+				}
+			}
+		}
+
+		System.out.println("Fim de verificação... ");
+
+	}
+
+	public String localizaRede() {
+
+		System.out.println("IP: " +  this.configuracoes.getIp());
+		String ip = this.configuracoes.getIp();
+		String[] vetorIP = ip.split("\\.");
+		System.out.println("Endereço de ip base: " + vetorIP[0] + "." + vetorIP[1] + "." + vetorIP[2] + ".");
+
+		return vetorIP[0] + "." + vetorIP[1] + "." + vetorIP[2] + ".";
+	}
 
 	public void enviaMessagem(String mgs) {
 		System.out.println("Total de servidores conectados: " + this.conexoes.size());

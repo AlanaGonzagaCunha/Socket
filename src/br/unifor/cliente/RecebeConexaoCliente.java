@@ -22,7 +22,7 @@ public class RecebeConexaoCliente implements Runnable {
 	public void run() {
 
 		try {
-			Socket abreConexao= new Socket(ip, porta);
+			Socket abreConexao= new Socket(this.ip, this.porta);
 			System.out.println("Cliene conectado no servidor!!!");
 			this.controle.adicionaConexao(abreConexao);
 			

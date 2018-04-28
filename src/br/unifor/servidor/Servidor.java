@@ -37,7 +37,6 @@ public class Servidor {
 			servidor = new ServerSocket(porta);
 
 			RecebeConexaoServidor recebeConexao= new RecebeConexaoServidor(this);
-			
 			thread = new Thread(recebeConexao);
 			thread.start();
 
