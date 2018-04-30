@@ -8,31 +8,29 @@ import br.unifor.controle.Controle;
 
 public class RecebeConexaoCliente implements Runnable {
 
-	private String ip;
-	private int porta;
-	private Controle controle;
+	String ip;
+	int porta;
+	Controle controle;
 
 	public RecebeConexaoCliente(String ip, int porta, Controle controle) {
 		this.ip = ip;
 		this.porta = porta;
-		this.controle= controle;
+		this.controle = controle;
 	}
 
 	@Override
 	public void run() {
 
 		try {
-			Socket abreConexao= new Socket(this.ip, this.porta);
+			Socket abreConexao = new Socket(this.ip, this.porta);
 			System.out.println("Cliene conectado no servidor!!!");
 			this.controle.adicionaConexao(abreConexao);
-			
-			
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
+
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out
+					.println("Não há servidor conectado neste ip: " + ip + " com a porta:" + String.valueOf(porta));
 		}
-		
+
 	}
 
 }

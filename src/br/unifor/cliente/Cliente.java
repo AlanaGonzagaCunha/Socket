@@ -18,13 +18,6 @@ public class Cliente {
 		this.controle= controle;
 	}
 
-	public static Controle getControle() {
-		return controle;
-	}
-
-	public static void setControle(Controle controle) {
-		Cliente.controle = controle;
-	}
 
 	public void enviaMessagem(String mgs) {
 

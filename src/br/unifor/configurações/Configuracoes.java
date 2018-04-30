@@ -4,31 +4,32 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 public class Configuracoes {
-	private  int porta;
+	private  String porta;
 	private  String ip;
 
-	public Configuracoes(int porta) {
+	public Configuracoes(String porta) {
 		this.porta = porta;
-		descobrirIpv4();
+		descobrirIpv4daRede();
 	}
 	
-	public void descobrirIpv4() {
+	public void descobrirIpv4daRede() {
 		InetAddress iAddress;
 		try {
 			
 			iAddress = InetAddress.getLocalHost();
 			
 			this.setIp(iAddress.getHostAddress());
+			
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public int getPorta() {
+	public String getPorta() {
 		return porta;
 	}
 
-	public  void setPorta(int porta) {
+	public void setPorta(String porta) {
 		this.porta = porta;
 	}
 

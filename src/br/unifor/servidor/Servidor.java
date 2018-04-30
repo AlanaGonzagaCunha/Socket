@@ -1,4 +1,5 @@
 package br.unifor.servidor;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,32 +12,27 @@ import java.util.Scanner;
 
 import br.unifor.controle.Controle;
 
-
 public class Servidor {
 
-	public static Socket cliente;
-	private static int porta = 2121;
-	static ServerSocket servidor;
+	 ServerSocket servidor;
 	public static Controle control;
 	private static Thread thread;
-	
-	
 
 	public Servidor(Controle controle) {
 		this.control = controle;
-		iniciaServicos(cliente);	
-	}
-	
-	public void adicionaConexao(Socket cliente) {
-		control.adicionaConexao(cliente);
+		iniciaServicos(control.getPortaServidor());
 	}
 
-	public void iniciaServicos(Socket c) {
+	public void recebeConexao(Socket cliente) {
+		this.getControl().adicionaConexao(cliente);
+	}
+
+	public void iniciaServicos(String porta) {
 		try {
-			System.out.println("Servidor iniciado na porta: "+ porta);
-			servidor = new ServerSocket(porta);
+			System.out.println(porta);
+			this.servidor = new ServerSocket(Integer.parseInt(porta));
 
-			RecebeConexaoServidor recebeConexao= new RecebeConexaoServidor(this);
+			RecebeConexaoServidor recebeConexao = new RecebeConexaoServidor(this);
 			thread = new Thread(recebeConexao);
 			thread.start();
 
@@ -44,40 +40,23 @@ public class Servidor {
 			e.printStackTrace();
 		}
 	}
-	public static Socket getCliente() {
-		return cliente;
+
+	public static Controle getControl() {
+		return control;
 	}
 
-
-
-	public static void setCliente(Socket cliente) {
-		Servidor.cliente = cliente;
+	public static void setControl(Controle control) {
+		Servidor.control = control;
 	}
 
-
-
-	public static int getPorta() {
-		return porta;
-	}
-
-
-
-	public static void setPorta(int porta) {
-		Servidor.porta = porta;
-	}
-
-
-
-	public static ServerSocket getServidor() {
+	public ServerSocket getServidor() {
 		return servidor;
 	}
 
-
-
-	public static void setServidor(ServerSocket servidor) {
-		Servidor.servidor = servidor;
+	public void setServidor(ServerSocket servidor) {
+		this.servidor = servidor;
 	}
 
-
+	
 
 }
