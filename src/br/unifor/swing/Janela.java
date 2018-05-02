@@ -69,7 +69,6 @@ public class Janela extends JFrame {
 		txtArea.setWrapStyleWord(true);
 		txtArea.setSize(460, 110);
 		txtArea.setLocation(10, 345);
-		//txtArea.setText("Digite seu texto...");
 
 		exibeMgs.setSize(300, 330);
 		exibeMgs.setLocation(10, 10);
@@ -106,6 +105,9 @@ public class Janela extends JFrame {
 						String mensagem = txtArea.getText();
 						System.out.println("Enviando mensagem: " + mensagem);
 						controle.enviaMessagem(mensagem);
+						exibeMgs.append(mensagem + "\n");
+						txtArea.setText("");
+
 					}
 				}
 			}
@@ -123,7 +125,8 @@ public class Janela extends JFrame {
 				if (!txtArea.getText().isEmpty() && !txtArea.isFocusOwner()) {
 					String mensagem = txtArea.getText();
 					System.out.println("Enviando mensagem: " + mensagem);
-					controle.enviaMessagem(mensagem);
+					controle.enviaMessagem(mensagem + " ");
+					exibeMgs.append(mensagem);
 					txtArea.setText("");
 
 				}
